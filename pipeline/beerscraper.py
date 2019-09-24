@@ -17,7 +17,7 @@ options = FirefoxOptions()
 options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
 
-for beer in beerlist[2222:]:
+for beer in beerlist[2561:]:
 	driver.implicitly_wait(3)
 	driver.get(beer)
 	html = driver.page_source
