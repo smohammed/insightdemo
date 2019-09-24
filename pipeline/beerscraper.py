@@ -9,15 +9,15 @@ import pandas as pd
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-from selenium.webdriver.chrome.options import Options  
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
 
 beerlist = np.loadtxt('../beerfiles/allbeers.txt', dtype='str')
-chrome_options = Options()  
-chrome_options.add_argument("--headless")  
-driver = webdriver.Chrome(chrome_options=chrome_options)
-driver.implicitly_wait(3)
+options = FirefoxOptions()
+options.add_argument("--headless")
+driver = webdriver.Firefox(options=options)
 
-for beer in beerlist:
+for beer in beerlist[2222:]:
 	driver.implicitly_wait(3)
 	driver.get(beer)
 	html = driver.page_source
@@ -57,6 +57,22 @@ for beer in beerlist:
 		for s in soup.find_all("div", id="rating_fullview_content_2"):
 			s = list(s.stripped_strings)[5:]
 			words += ' '.join(s[:-4]) + ' '
+
+		driver.get(beer+'/?view=beer&sort=&start=25')
+		html = driver.page_source
+		soup = BeautifulSoup(html, 'lxml')
+		for s in soup.find_all("div", id="rating_fullview_content_2"):
+			s = list(s.stripped_strings)[5:]
+			words += ' '.join(s[:-4]) + ' '
+
+		#driver.implicitly_wait(1)
+		driver.get(beer+'/?view=beer&sort=&start=50')
+		html = driver.page_source
+		soup = BeautifulSoup(html, 'lxml')
+		for s in soup.find_all("div", id="rating_fullview_content_2"):
+			s = list(s.stripped_strings)[5:]
+			words += ' '.join(s[:-4]) + ' '
+
 		# Convert to all lowercase
 		words = words.lower()
 		# Convert to list of words
@@ -83,7 +99,7 @@ for beer in beerlist:
 		except FileNotFoundError:
 			print('who knows what is wrong')
 
-
+'''
 # Combine all beers
 os.chdir(".")
 extension = 'csv'
@@ -92,7 +108,7 @@ all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
 combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
 #export to csv
 combined_csv.to_csv( "combinedbeers.csv", index=False, encoding='utf-8-sig')
-
+'''
 
 
 # Remember when grabbing word names to split them
