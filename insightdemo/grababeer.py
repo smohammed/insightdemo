@@ -83,7 +83,7 @@ def get_related_documents(term, top, corpus):
             break
     return doc_id[0]
 
-def getabeer(beerfile, keyword):
+def getabeer(keyword):
     beers = pd.read_csv('beerlist.csv')
     beers = beers[:2000]
 

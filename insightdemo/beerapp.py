@@ -6,7 +6,7 @@ import string
 import csv
 from insightdemo import flask_instance
 from wtforms import StringField
-#import grababeer
+from insightdemo.grababeer import *
 
 
 @flask_instance.route('/')
@@ -25,18 +25,10 @@ def output():
     return render_template('model_output.html')
 
 '''
-@flask_instance.route('/', methods=['GET', 'POST'])
-def homepage():
-    search = StringField('')
-    if request.method == 'POST':
-        return search_results(search)
-    return render_template('model_input.html', form=search)
-
-@flask_instance.route('/model_output', methods=['GET', 'POST'])
+@flask_instance.route('/model_output')
 def output():
-    if request.method == 'POST':
-        return search_results(search)
-    return render_template('model_output.html', form=search)
+    the_result = getabeer(keyword)
+    return render_template("model_output.html", the_result=the_result)
 '''
 
 # start the server with the 'run()' method
