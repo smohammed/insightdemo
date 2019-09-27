@@ -6,7 +6,7 @@ import string
 import csv
 from insightdemo import flask_instance
 from wtforms import StringField
-from insightdemo.grababeer import *
+#from insightdemo.grababeer import *
 
 
 @flask_instance.route('/')
