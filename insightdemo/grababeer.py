@@ -77,7 +77,8 @@ def get_related_documents(term, top, corpus):
  
     related_docid.sort(key = itemgetter(1), reverse=True)
     for j,doc_id in enumerate(related_docid):
-        print(doc_id[1],"\n\n",docs_test[doc_id[0]])
+        print('')
+        #print(doc_id[1],"\n\n",docs_test[doc_id[0]])
         if j == (top-1):
             break
     return doc_id[0]
