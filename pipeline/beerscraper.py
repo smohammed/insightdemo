@@ -11,16 +11,24 @@ from bs4 import BeautifulSoup
 from collections import OrderedDict
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
-
+# Load beer list, open web browser with headless to avoid browser appearing
 beerlist = np.loadtxt('../beerfiles/allbeers.txt', dtype='str')
 options = FirefoxOptions()
 options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
 
-for beer in beerlist[2561:]:
-	driver.implicitly_wait(3)
-	driver.get(beer)
-	html = driver.page_source
+for beer in beerlist[5466:]:
+	driver.implicitly_wait(2)
+	# Try except to avoid marionette error?
+	try:
+		driver.get(beer)
+		html = driver.page_source
+	except selenium.common.exceptions.WebDriverException:
+		print('marionette error')
+		driver = webdriver.Firefox(options=options)
+		driver.get(beer)
+		html = driver.page_source
+
 	soup = BeautifulSoup(html, 'lxml')
 
 
@@ -33,7 +41,7 @@ for beer in beerlist[2561:]:
 		name, brewery = n_b.split('<br/><span style="color:#999999; font-size:0.75em;">', 1)
 		brewery = brewery.split('<', 1)[0]
 		print(name)
-		
+		print(beer)
 		# Get score
 		try:
 			score = soup.find('span', class_='ba-score').get_text()
@@ -58,16 +66,30 @@ for beer in beerlist[2561:]:
 			s = list(s.stripped_strings)[5:]
 			words += ' '.join(s[:-4]) + ' '
 
-		driver.get(beer+'/?view=beer&sort=&start=25')
-		html = driver.page_source
+		try:
+			driver.get(beer+'/?view=beer&sort=&start=25')
+			html = driver.page_source
+		except selenium.common.exceptions.WebDriverException:
+			print('marionette error')
+			driver = webdriver.Firefox(options=options)
+			driver.get(beer+'/?view=beer&sort=&start=25')
+			html = driver.page_source
+
 		soup = BeautifulSoup(html, 'lxml')
 		for s in soup.find_all("div", id="rating_fullview_content_2"):
 			s = list(s.stripped_strings)[5:]
 			words += ' '.join(s[:-4]) + ' '
 
 		#driver.implicitly_wait(1)
-		driver.get(beer+'/?view=beer&sort=&start=50')
-		html = driver.page_source
+		try:
+			driver.get(beer+'/?view=beer&sort=&start=50')
+			html = driver.page_source
+		except selenium.common.exceptions.WebDriverException:
+			print('marionette error')
+			driver = webdriver.Firefox(options=options)
+			driver.get(beer+'/?view=beer&sort=&start=50')
+			html = driver.page_source
+
 		soup = BeautifulSoup(html, 'lxml')
 		for s in soup.find_all("div", id="rating_fullview_content_2"):
 			s = list(s.stripped_strings)[5:]
