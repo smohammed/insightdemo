@@ -13,6 +13,7 @@ from collections import OrderedDict
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer 
 
+
 exclude = set(string.punctuation)
 lemma = WordNetLemmatizer()
 # Load trained LDA model
