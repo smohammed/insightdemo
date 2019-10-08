@@ -23,8 +23,7 @@ ldamodel = pickle.load(lda_fp)
 # Load the beers corpus to choose 500 lines for test purpose
 docs_fp = open("docs_beers.pkl", 'rb')
 docs_all = pickle.load(docs_fp)
-docs_test = docs_all[1000:].reset_index(drop=True)
-
+docs_test = docs_all[3000:].reset_index(drop=True)
 
 def pre_process(text):
     # lowercase
@@ -75,18 +74,19 @@ def get_related_documents(term, top, corpus):
             topics.sort(key = itemgetter(1), reverse=True)
             if topics[0][0] == term_topics[0][0]:
                 related_docid.append((k,topics[0][1]))
- 
+    beerids = [] 
     related_docid.sort(key = itemgetter(1), reverse=True)
     for j,doc_id in enumerate(related_docid):
         print('')
-        #print(doc_id[1],"\n\n",docs_test[doc_id[0]])
+        print(doc_id[1],"\n\n",docs_test[doc_id[0]])
         if j == (top-1):
             break
-    return doc_id[0]
+        beerids.append(doc_id[0])
+    return beerids #doc_id[0]
 
 def getabeer(keyword):
     beers = pd.read_csv('beerlist.csv')
-    beers = beers[:2000]
+    beers = beers[:3000]
 
     beers['words'] = beers['words'].apply(lambda x:pre_process(x))
     for i in range(len(beers)):
@@ -102,10 +102,10 @@ def getabeer(keyword):
     lemma = WordNetLemmatizer()
 
     # Get 'top' related documents given a word(term)
-    a = get_related_documents(keyword, 1 , docs_test)
+    #a = get_related_documents(keyword, 1 , docs_test)
     # performs document clustering given a set of documents
     #cluster_similar_documents(docs_test,"root")
 
-    return beers['name'][a+1000]
+    #return beers['name'][a+3000]
 
 #getabeer('asdf', 'lager')
