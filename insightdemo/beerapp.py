@@ -23,7 +23,6 @@ def homepage():
     print('using post method')
     print(keyword)
     grababeer = getbeerrec(keyword)
-    #grababeer = [['Poop Your Pants Chocolate Bock', 'Lobo Negro', "Ellie's Brown Ale", 'Rugged Trail Nut Brown Ale', "Mad Tom's Robust Porter", 'Boffo Brown Ale', 'Jupiter (The Bringer Of Jollity)', 'Samuel Adams Hazel Brown', 'Get Up Offa That Brown'], ['Perrin Brewing Co.', 'Pedernales Brewing Company', 'Avery Brewing Company', 'Tröegs Brewing Company', 'Schmohz Brewing Company', 'Dark Horse Brewing Company', "Bell's Brewery - Eccentric Café &amp; General Store", 'Boston Beer Company (Samuel Adams)', 'Golden Road Brewing'], ['German Bock', 'Munich Dunkel Lager', 'American Brown Ale', 'English Brown Ale', 'Robust Porter ', 'English Brown Ale', 'American Brown Ale', 'American Brown Ale', 'English Brown Ale']] 
     grabbeer = grababeer[0]
     grabbrew = grababeer[1]
     grabstyle = grababeer[2]
@@ -43,7 +42,6 @@ def homepage():
 def homepage():
     if request.method == 'POST':
         return render_template("model_input.html")
-'''
 
 @flask_instance.route('/model_output')
 def output():
@@ -51,6 +49,8 @@ def output():
     print(keyword)
     print('now on output page')
     return render_template('model_output.html', result=keyword)
+'''
+
 
 if __name__ == '__main__':
     app.run(debug=True)
