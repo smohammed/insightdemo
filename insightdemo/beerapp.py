@@ -1,17 +1,30 @@
 from flask import Flask,render_template,url_for,request, flash, redirect
-import pandas as pd 
-import numpy as np
+import os
+import csv
 import pickle
 import string
-import csv
-from insightdemo import flask_instance
+import numpy as np
+import pandas as pd 
+from operator import itemgetter
 from wtforms import StringField
-#from insightdemo.grababeer import *
+from nltk.corpus import stopwords
+from insightdemo import flask_instance
+from nltk.stem.wordnet import WordNetLemmatizer
+from insightdemo.grababeer import *
 
 
-@flask_instance.route('/')
+@flask_instance.route('/', methods=['GET', 'POST'])
 def homepage():
-    return render_template("model_input.html")
+    print(request)
+    keyword = request.args.get('userinput')
+    if keyword is None:
+        return render_template("model_input.html")
+
+    print('using post method')
+    print(keyword)
+    #grababeer = getbeerrec(keyword)
+    
+    return render_template('model_output.html', result = grababeer)
 
 '''
 @flask_instance.route('/', methods=['POST', 'GET'])
@@ -22,15 +35,10 @@ def homepage():
 
 @flask_instance.route('/model_output')
 def output():
-    return render_template('model_output.html')
+    keyword = request.form.get('keyword')
+    print(keyword)
+    print('now on output page')
+    return render_template('model_output.html', result=keyword)
 
-'''
-@flask_instance.route('/model_output')
-def output():
-    the_result = getabeer(keyword)
-    return render_template("model_output.html", the_result=the_result)
-'''
-
-# start the server with the 'run()' method
 if __name__ == '__main__':
     app.run(debug=True)
