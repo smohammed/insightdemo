@@ -1,1 +1,1 @@
-Insight Demo
+Insight Demo - Fantasy Craft
